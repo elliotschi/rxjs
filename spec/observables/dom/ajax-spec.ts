@@ -141,6 +141,22 @@ describe('Observable.ajax', () => {
     });
   });
 
+  it('should not set default Content-Type header on GET', () => {
+    const obj: Rx.AjaxRequest = {
+      url: 'talk-to-me-goose',
+      method: 'GET'
+    };
+
+    Rx.Observable.ajax(obj).subscribe();
+
+    const request = MockXMLHttpRequest.mostRecent;
+
+    expect(request.url).to.equal('/talk-to-me-goose');
+    expect(request.requestHeaders).to.deep.equal({
+      'X-Requested-With': 'XMLHttpRequest'
+    });
+  });
+
   it('should have an optional resultSelector', () => {
     const expected = 'avast ye swabs!';
     let result;
